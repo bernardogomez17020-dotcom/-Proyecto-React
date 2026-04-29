@@ -2,10 +2,14 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import UserOne from '../images/user/user-01.png';
+//Importar la torre de control para obtener el usuario actual
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
+  const user = useSelector((state: RootState) => state.user.user);
+  
   const trigger = useRef<any>(null);
   const dropdown = useRef<any>(null);
 
@@ -45,7 +49,7 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            Thomas Anree
+            {user?.name || 'Guest'}
           </span>
           <span className="block text-xs">UX Designer</span>
         </span>

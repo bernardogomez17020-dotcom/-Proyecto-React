@@ -10,8 +10,39 @@ const Tables = lazy(() => import('../pages/Tables'));
 const Alerts = lazy(() => import('../pages/UiElements/Alerts'));
 const Buttons = lazy(() => import('../pages/UiElements/Buttons'));
 const Demo= lazy(() => import('../pages/Demo'));
+const ImageEditor= lazy(() => import('../pages/ImageEditor'));
+const UserList= lazy(() => import('../pages/Users/ListUsers'));
+const UserCreate= lazy(() => import('../pages/Users/Create'));
+const UserUpdate= lazy(() => import('../pages/Users/Update'));
+const RoleList= lazy(() => import('../pages/Roles/List'));
+const Posts= lazy(() => import('../pages/Posts/List'));
 
 const coreRoutes = [
+  {
+    path: '/users/list',
+    title: 'Users',
+    component: UserList,
+  },
+  {
+    path: '/users/create',
+    title: 'Create User',
+    component: UserCreate,
+  },
+  {
+    path: '/users/update/:id',
+    title: 'Edit User',
+    component: UserUpdate,
+  },
+  {
+    path: '/posts/list',
+    title: 'Posts',
+    component: Posts,
+  },
+  {
+    path: '/roles-list',
+    title: 'Roles',
+    component: RoleList,
+  },
   {
     path: '/demo',
     title: 'Demo',
@@ -62,6 +93,11 @@ const coreRoutes = [
     title: 'Buttons',
     component: Buttons,
   },
+  {
+    path: '/image-editor',
+    title: 'Image Editor',
+    component: ImageEditor,
+  }
 ];
 
 const routes = [...coreRoutes];

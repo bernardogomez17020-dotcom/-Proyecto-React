@@ -6,6 +6,13 @@
   body {
     @apply font-satoshi font-normal text-base text-body bg-whiten relative z-1;
   }
+  /* Estilos base para botones: aseguran texto legible por defecto */
+  button,
+  input[type="button"],
+  input[type="submit"],
+  [role="button"] {
+    @apply text-body dark:!text-bodydark bg-transparent;
+  }
 }
 
 @layer components {
