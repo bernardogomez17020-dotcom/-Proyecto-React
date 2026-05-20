@@ -66,7 +66,13 @@ export class AuthInterceptor {
         );
 
         this.api.interceptors.response.use(
-            (response) => response,
+            (response) => {
+                // Unwrap backend's { message, data } envelope
+                if (response.data && typeof response.data === 'object' && 'data' in response.data) {
+                    response.data = response.data.data;
+                }
+                return response;
+            },
             this.handleResponseError.bind(this)
         );
     }

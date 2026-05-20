@@ -1,5 +1,10 @@
 import React from "react";
 
+interface Column {
+    key: string;
+    label: string;
+}
+
 interface Action {
     name: string;
     label: string;
@@ -7,10 +12,22 @@ interface Action {
 
 interface GenericTableProps {
     data: Record<string, any>[];
-    columns: string[];
+    columns: Column[];
     actions: Action[];
     onAction: (name: string, item: Record<string, any>) => void;
 }
+
+const renderCell = (value: any) => {
+    if (typeof value === 'boolean') {
+        return (
+            <span className={`inline-flex rounded-full py-1 px-3 text-xs font-medium ${value ? 'bg-success bg-opacity-10 text-success' : 'bg-danger bg-opacity-10 text-danger'}`}>
+                {value ? 'Sí' : 'No'}
+            </span>
+        );
+    }
+    if (value === null || value === undefined) return '—';
+    return String(value);
+};
 
 const GenericTable: React.FC<GenericTableProps> = ({ data, columns, actions, onAction }) => {
     return (
@@ -21,36 +38,30 @@ const GenericTable: React.FC<GenericTableProps> = ({ data, columns, actions, onA
                         <tr className="bg-gray-2 text-left dark:bg-meta-4">
                             {columns.map((col, index) => (
                                 <th
-                                    key={col}
-                                    className={`py-4 px-4 font-medium text-black dark:text-white ${
-                                        index === 0 ? "min-w-[220px] xl:pl-11" : "min-w-[150px]"
-                                    }`}
+                                    key={col.key}
+                                    className={`py-4 px-4 font-medium text-black dark:text-white ${index === 0 ? "min-w-[220px] xl:pl-11" : "min-w-[150px]"}`}
                                 >
-                                    {col}
+                                    {col.label}
                                 </th>
                             ))}
                             <th className="py-4 px-4 font-medium text-black dark:text-white">
-                                Actions
+                                Acciones
                             </th>
                         </tr>
                     </thead>
-
                     <tbody>
                         {data.map((item, index) => (
                             <tr key={index}>
                                 {columns.map((col, colIndex) => (
                                     <td
-                                        key={col}
-                                        className={`border-b border-[#eee] py-5 px-4 dark:border-strokedark ${
-                                            colIndex === 0 ? "pl-9 xl:pl-11" : ""
-                                        }`}
+                                        key={col.key}
+                                        className={`border-b border-[#eee] py-5 px-4 dark:border-strokedark ${colIndex === 0 ? "pl-9 xl:pl-11" : ""}`}
                                     >
                                         <p className="text-black dark:text-white">
-                                            {item[col]}
+                                            {renderCell(item[col.key])}
                                         </p>
                                     </td>
                                 ))}
-
                                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                     <div className="flex items-center gap-2">
                                         {actions.map((action) => (
@@ -58,23 +69,10 @@ const GenericTable: React.FC<GenericTableProps> = ({ data, columns, actions, onA
                                                 key={action.name}
                                                 onClick={() => onAction(action.name, item)}
                                                 type="button"
-                                                className={`rounded-md border border-stroke px-2 py-1 text-xs font-medium transition
-                                                    hover:bg-gray-2 dark:border-strokedark
-                                                    ${
-                                                        action.name === "delete"
-                                                            ? "text-red-500 hover:bg-red-100"
-                                                            : ""
-                                                    }
-                                                    ${
-                                                        action.name === "view"
-                                                            ? "text-blue-500 hover:bg-blue-100"
-                                                            : ""
-                                                    }
-                                                    ${
-                                                        action.name === "download"
-                                                            ? "text-green-500 hover:bg-green-100"
-                                                            : ""
-                                                    }
+                                                className={`rounded-md border border-stroke px-2 py-1 text-xs font-medium transition hover:bg-gray-2 dark:border-strokedark
+                                                    ${action.name === "delete" ? "text-red-500 hover:bg-red-100" : ""}
+                                                    ${action.name === "view" ? "text-blue-500 hover:bg-blue-100" : ""}
+                                                    ${action.name === "download" ? "text-green-500 hover:bg-green-100" : ""}
                                                 `}
                                             >
                                                 {action.label}

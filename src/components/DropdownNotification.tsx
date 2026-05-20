@@ -1,9 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { io } from 'socket.io-client';
 
-const SOCKET_URL = import.meta.env.VITE_SOCKET_URL;
-const socket = io(SOCKET_URL);
+const socket: any = null;
 
 
 interface Notification {
@@ -21,6 +19,7 @@ const DropdownNotification = () => {
 
   // WebSocket listener
   useEffect(() => {
+    if (!socket) return;
     socket.on('new_notification', (data: any) => {
       const now = new Date();
       console.log('Notificación recibida:', data);
