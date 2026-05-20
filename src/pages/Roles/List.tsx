@@ -7,12 +7,12 @@ interface Role {
 }
 
 const Roles: React.FC = () => {
-    const [roles, setRoles] = useState<Role[]>([
+    const [roles] = useState<Role[]>([
         { id: 1, name: "Admin" },
         { id: 2, name: "User" },
     ]);
 
-    const handleAction = (action: string, item: Role) => {
+    const handleAction = (action: string, item: Record<string, any>) => {
         if (action === "assignPermissions") {
             console.log("Assign permissions to role:", item);
         }
@@ -23,8 +23,11 @@ const Roles: React.FC = () => {
             <h2>Role List</h2>
             <GenericTable
                 data={roles}
-                columns={["id", "name"]}
-                actions={[{ name: "assignPermissions", label: "Assign Permissions" }]}
+                columns={[
+                    { key: 'id', label: 'ID' },
+                    { key: 'name', label: 'Nombre' },
+                ]}
+                actions={[{ name: "assignPermissions", label: "Asignar Permisos" }]}
                 onAction={handleAction}
             />
         </div>

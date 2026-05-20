@@ -10,7 +10,6 @@ class SecurityService extends EventTarget {
     private readonly userKey: string;
     private readonly API_URL: string;
     private user: User | null;
-    private theAuthProvider: any;
     private storage: StorageProvider;
 
     constructor(storage: StorageProvider = new LocalStorageProvider()) {
@@ -50,15 +49,14 @@ class SecurityService extends EventTarget {
             throw new Error(`Login failed with status ${response.status}`);
         }
 
-        const data = response.data;
+        const payload = response.data?.data;
 
-        this.user = data.user;
+        this.user = payload?.user ?? null;
 
-        // Ajusta esto según la estructura real de la respuesta
         this.storage.setItem(this.userKey, JSON.stringify(this.user));
 
-        if (data?.token) {
-            this.storage.setItem(this.keyToken, data.token);
+        if (payload?.access_token) {
+            this.storage.setItem(this.keyToken, payload.access_token);
         }
 
         store.dispatch(setUser(this.user));

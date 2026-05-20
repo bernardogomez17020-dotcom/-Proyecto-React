@@ -1,8 +1,10 @@
 export interface User {
-    id?: number;
-    name?: string;
-    username?: string;
-    email?: string;
-    phone?: string;
-    password?: string;
+  id?: string;
+  email?: string;
+  password?: string;
+  code?: string;
+  role?: 'ADMIN' | 'TEACHER' | 'STUDENT';
+  is_active?: boolean;
+  created_at?: string;
+  updated_at?: string;
 }

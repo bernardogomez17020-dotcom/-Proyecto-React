@@ -53,8 +53,10 @@ class PostService {
             return false;
         }
     }
+
+    async getAll(): Promise<Post[]> { return this.getPosts(); }
+    async delete(id: string): Promise<boolean> { return this.deletePost(Number(id)); }
 }
 
-// Instancia reutilizable
 export const postService = new PostService();
 
